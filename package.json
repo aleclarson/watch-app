@@ -1,0 +1,22 @@
+{
+  "name": "watch-app",
+  "version": "1.0.0",
+  "description": "Restart .app when it changes",
+  "license": "MIT",
+  "repository": "https://github.com/aleclarson/watch-app.git",
+  "author": "Alec Larson",
+  "bin": "cli.js",
+  "files": [
+    "index.js",
+    "cli.js",
+    "pid.sh"
+  ],
+  "dependencies": {
+    "chokidar": "^3.0.1",
+    "execa": "^2.0.3",
+    "kleur": "^3.0.3"
+  },
+  "devDependencies": {
+    "prettier": "^1.18.2"
+  }
+}
