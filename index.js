@@ -22,6 +22,10 @@ module.exports = appPath => {
   watcher.once('ready', () =>
     watcher.on('all', () => {
       exec(`kill -9 ${pid}`)
+
+      const appName = fs.readdirSync(`${appPath}/Contents/MacOS`)[0]
+      fs.chmodSync(`${appPath}/Contents/MacOS/${appName}`, 0755)
+
       pid = open(appPath)
     })
   )
