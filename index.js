@@ -19,16 +19,22 @@ module.exports = appPath => {
     `${appPath}/Contents/MacOS/*`,
     `${appPath}/Contents/Resources/**`,
   ])
-  watcher.once('ready', () =>
-    watcher.on('all', () => {
-      exec(`kill -9 ${pid}`)
-
-      const appName = fs.readdirSync(`${appPath}/Contents/MacOS`)[0]
-      fs.chmodSync(`${appPath}/Contents/MacOS/${appName}`, 0755)
-
-      pid = open(appPath)
-    })
-  )
+  watcher.once('ready', () => {
+    watcher.on('all', debounce(onFileChange, 1000))
+    function onFileChange() {
+      if (pid != null) {
+        exec(`kill -9 ${pid}`)
+        pid = null
+      }
+      try {
+        const appName = fs.readdirSync(`${appPath}/Contents/MacOS`)[0]
+        fs.chmodSync(`${appPath}/Contents/MacOS/${appName}`, 0755)
+        pid = open(appPath)
+      } catch (e) {
+        console.error(e)
+      }
+    }
+  })
 }
 
 function open(appPath) {
@@ -49,4 +55,12 @@ function getProcessId(appPath) {
 function exec(cmd) {
   cmd = cmd.trim().split(/[\s]+/g)
   return execa.sync(cmd[0], cmd.slice(1))
+}
+
+function debounce(fn, ms) {
+  let t
+  return () => {
+    clearTimeout(t)
+    t = setTimeout(fn, ms)
+  }
 }
