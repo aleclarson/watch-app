@@ -7,9 +7,7 @@
   "author": "Alec Larson",
   "bin": "cli.js",
   "files": [
-    "index.js",
-    "cli.js",
-    "pid.sh"
+    "*.js"
   ],
   "dependencies": {
     "chokidar": "^3.0.1",
