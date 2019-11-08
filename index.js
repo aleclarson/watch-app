@@ -27,7 +27,7 @@ module.exports = appPath => {
         pid = null
       }
       try {
-        const appName = fs.readdirSync(`${appPath}/Contents/MacOS`)[0]
+        const appName = getAppName(appPath)
         fs.chmodSync(`${appPath}/Contents/MacOS/${appName}`, 0755)
         pid = open(appPath)
       } catch (e) {
@@ -46,10 +46,27 @@ function open(appPath) {
   return pid
 }
 
+function getAppName(appPath) {
+  return fs
+    .readdirSync(`${appPath}/Contents/MacOS`)
+    .find(name => name[0] !== '.')
+}
+
+function getProcesses() {
+  return exec('ps x -o pid,args')
+    .stdout.split('\n')
+    .slice(1)
+    .map(proc => {
+      const [, pid, args] = /(\d+) (.+)/.exec(proc)
+      return { pid, args }
+    })
+}
+
 function getProcessId(appPath) {
-  const pidBin = path.resolve(__dirname, 'pid.sh')
-  const pidStr = exec(`sh ${pidBin} ${appPath}`).stdout
-  return pidStr ? Number(pidStr) : null
+  const appName = getAppName(appPath)
+  const appBin = `${appPath}/Contents/MacOS/${appName}`
+  const proc = getProcesses().find(proc => proc.args == appBin)
+  return proc ? Number(proc.pid) : null
 }
 
 function exec(cmd) {
