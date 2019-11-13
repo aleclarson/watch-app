@@ -27,8 +27,6 @@ module.exports = appPath => {
         pid = null
       }
       try {
-        const appName = getAppName(appPath)
-        fs.chmodSync(`${appPath}/Contents/MacOS/${appName}`, 0755)
         pid = open(appPath)
       } catch (e) {
         console.error(e)
@@ -38,6 +36,9 @@ module.exports = appPath => {
 }
 
 function open(appPath) {
+  const appName = getAppName(appPath)
+  fs.chmodSync(`${appPath}/Contents/MacOS/${appName}`, 0755)
+
   exec(`open ${appPath}`)
   const pid = getProcessId(appPath)
   if (pid == null) {
