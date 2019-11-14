@@ -24,7 +24,9 @@ module.exports = appPath => {
     watcher.on('all', debounce(onFileChange, 1000))
     function onFileChange() {
       if (pid != null) {
-        exec(`kill -9 ${pid}`)
+        try {
+          exec(`kill -9 ${pid}`)
+        } catch (e) {}
         pid = null
       }
       try {
