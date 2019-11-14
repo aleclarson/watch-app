@@ -2,6 +2,7 @@ dependencies:
   chokidar: 3.3.0
   execa: 2.1.0
   kleur: 3.0.3
+  shell-quote: 1.7.2
 devDependencies:
   prettier: 1.19.1
 lockfileVersion: 5.1
@@ -244,6 +245,10 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==
+  /shell-quote/1.7.2:
+    dev: false
+    resolution:
+      integrity: sha512-mRz/m/JVscCrkMyPqHc/bczi3OQHkLTqXHEFu0zDhK/qfv3UcOA4SVmRCLmos4bhjr9ekVQubj/R7waKapmiQg==
   /signal-exit/3.0.2:
     dev: false
     resolution:
@@ -280,3 +285,4 @@ specifiers:
   execa: ^2.0.3
   kleur: ^3.0.3
   prettier: ^1.18.2
+  shell-quote: ^1.7.2

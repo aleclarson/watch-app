@@ -1,3 +1,4 @@
+const parseQuotes = require('shell-quote').parse
 const chokidar = require('chokidar')
 const execa = require('execa')
 const path = require('path')
@@ -71,7 +72,7 @@ function getProcessId(appPath) {
 }
 
 function exec(cmd) {
-  cmd = cmd.trim().split(/[\s]+/g)
+  cmd = parseQuotes(cmd)
   return execa.sync(cmd[0], cmd.slice(1))
 }
 
